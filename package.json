@@ -1,0 +1,38 @@
+{
+  "name": "meotorologia",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Aplicação web de meteorologia imersiva em 3D, focada no Brasil. O usuário explora o mapa 3D do país, seleciona um estado e visualiza o céu da capital em tempo real, com cores e efeitos baseados nos dados climáticos atuais.",
+  "homepage": "https://github.com/Guilherme137alves77/site-meteorologico#readme",
+  "bugs": {
+    "url": "https://github.com/Guilherme137alves77/site-meteorologico/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guilherme137alves77/site-meteorologico.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "vite.config.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.90.0",
+    "vite": "^8.3.6"
+  }
+}
