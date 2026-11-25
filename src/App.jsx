@@ -23,6 +23,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [panelCollapsed, setPanelCollapsed] = useState(false);
 
   const sky = weather
     ? getSkyConfig(weather)
@@ -52,6 +53,8 @@ export default function App() {
     setError('');
   }, []);
 
+  const handlePanelCollapseChange = useCallback((v) => setPanelCollapsed(v), []);
+
   const themeStyle = useMemo(() => ({
     '--accent': palette.accent,
     '--glow': palette.glow,
@@ -59,7 +62,7 @@ export default function App() {
 
   return (
     <div className="app" style={themeStyle}>
-      <Experience view={view} selectedState={selectedState} onSelectState={handleSelectState} sky={sky} />
+      <Experience view={view} selectedState={selectedState} onSelectState={handleSelectState} sky={sky} panelCollapsed={panelCollapsed} />
 
       <div className="overlay">
         <header className="titlebar">
@@ -74,6 +77,7 @@ export default function App() {
           loading={loading}
           error={error}
           onBack={handleBack}
+          onCollapseChange={handlePanelCollapseChange}
         />
 
         {!hasInteracted && view === 'map' && (

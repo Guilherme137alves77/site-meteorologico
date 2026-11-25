@@ -14,7 +14,7 @@ function MapLights() {
   );
 }
 
-export default function Experience({ view, selectedState, onSelectState, sky }) {
+export default function Experience({ view, selectedState, onSelectState, sky, panelCollapsed = false }) {
   // Transition: keep sky mounted briefly during fade-out when returning to map.
   const [showSky, setShowSky] = useState(view === 'sky');
   const [skyVisible, setSkyVisible] = useState(view === 'sky');
@@ -46,7 +46,7 @@ export default function Experience({ view, selectedState, onSelectState, sky }) 
     <div className="scene-root" aria-hidden="true">
       {/* Base map canvas is always present; sky crossfades over it. */}
       {/* In sky view, map becomes a small interactive selector dock. */}
-      <div className={`scene-layer map-layer ${view === 'map' ? 'is-active' : 'is-dock'}`}>
+      <div className={`scene-layer map-layer ${view === 'map' ? 'is-active' : 'is-dock'} ${panelCollapsed ? 'panel-collapsed' : ''}`}>
         <Canvas camera={{ position: [0, 9, 12], fov: 38 }} dpr={[1, 2]} resize={{ scroll: false, debounce: 0 }}>
           <Suspense fallback={null}>
             <color attach="background" args={['#060c16']} />

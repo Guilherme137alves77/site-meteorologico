@@ -50,9 +50,10 @@ function StateMesh({ feature, _selectedId, hoveredId, onHover, onSelect }) {
   const geometries = useMemo(() => geometryToMeshes(feature.geometry), [feature]);
 
   const isHovered = hoveredId === id;
-  // High contrast against dark background.
-  const color = isHovered ? '#bde6ff' : '#8fc0e8';
-  const emissive = isHovered ? '#7fd3ff' : '#2a5a86';
+  // High contrast so states are clearly visible on dark map background.
+  const color = isHovered ? '#d6efff' : '#9fd0f5';
+  const emissive = isHovered ? '#8fd8ff' : '#3d7ab5';
+  const outlineColor = isHovered ? '#eaf7ff' : '#c8e6ff';
 
   return (
     <group
@@ -73,17 +74,23 @@ function StateMesh({ feature, _selectedId, hoveredId, onHover, onSelect }) {
       }}
     >
       {geometries.map((geom, i) => (
-        <mesh key={i} geometry={geom} castShadow receiveShadow>
-          <meshStandardMaterial
-            color={color}
-            emissive={emissive}
-            emissiveIntensity={isHovered ? 0.42 : 0.3}
-            roughness={0.42}
-            metalness={0.08}
-          />
-        </mesh>
+        <group key={i}>
+          <mesh geometry={geom} castShadow receiveShadow>
+            <meshStandardMaterial
+              color={color}
+              emissive={emissive}
+              emissiveIntensity={isHovered ? 0.5 : 0.34}
+              roughness={0.38}
+              metalness={0.06}
+            />
+          </mesh>
+          {/* Subtle outline to separate adjacent states. */}
+          <lineSegments>
+            <edgesGeometry args={[geom, 12]} />
+            <lineBasicMaterial color={outlineColor} transparent opacity={isHovered ? 0.95 : 0.55} />
+          </lineSegments>
+        </group>
       ))}
-
     </group>
   );
 }

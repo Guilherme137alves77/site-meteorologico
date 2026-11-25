@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getWeatherLabel } from '../../utils/weatherCodes';
 
 function Stat({ label, value }) {
@@ -17,25 +17,31 @@ function formatTime(iso) {
   return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 }
 
-export default function WeatherPanel({ view, state, weather, loading, error, onBack }) {
+export default function WeatherPanel({ view, state, weather, loading, error, onBack, onCollapseChange }) {
   const [collapsed, setCollapsed] = useState(false);
   const filled = view === 'sky';
 
+  useEffect(() => {
+    onCollapseChange?.(collapsed);
+  }, [collapsed, onCollapseChange]);
+
+  const isCollapsed = view === 'sky' ? collapsed : false;
+
   // Mobile: collapsed drawer shows a compact strip (state + temp).
   const handlePanelClick = () => {
-    if (filled && collapsed) setCollapsed(false);
+    if (filled && isCollapsed) setCollapsed(false);
   };
 
   return (
     <aside
-      className={`panel glass ${filled ? 'is-filled' : 'is-idle'} ${collapsed ? 'is-collapsed' : ''}`}
+      className={`panel glass ${filled ? 'is-filled' : 'is-idle'} ${isCollapsed ? 'is-collapsed' : ''}`}
       aria-live="polite"
       onClick={handlePanelClick}
     >
       <div className="panel-top">
         <div className="panel-top-left">
           <p className="eyebrow">Clima</p>
-          {filled && collapsed && state && (
+          {filled && isCollapsed && state && (
             <p className="panel-compact">
               {state.capital} · {weather ? `${Math.round(weather.temperature)}°C` : '...'}
             </p>
@@ -47,9 +53,9 @@ export default function WeatherPanel({ view, state, weather, loading, error, onB
               type="button"
               className="collapse-btn"
               onClick={(e) => { e.stopPropagation(); setCollapsed((v) => !v); }}
-              aria-label={collapsed ? 'Expandir painel' : 'Recolher painel'}
+              aria-label={isCollapsed ? 'Expandir painel' : 'Recolher painel'}
             >
-              {collapsed ? '▲' : '▼'}
+              {isCollapsed ? '▲' : '▼'}
             </button>
             <button type="button" className="back-btn" onClick={(e) => { e.stopPropagation(); onBack(); }}>
               ← Voltar ao mapa
